@@ -8,8 +8,11 @@ class PostController extends Controller
 {
     public function index()
     {
-        $post = Post::find(1);
-        dd($post->likes);
+        $posts = Post::where('is_published', 0)->get();
+        foreach ($posts as $post) {
+            dump($post->title);
+        }
+        dd('end');
 
     }
 
