@@ -1,4 +1,4 @@
 @extends('layouts.main')
 @section('content')
-    <h1>This is post page</h1>
+    <h1>this is about page</h1>
 @endsection
