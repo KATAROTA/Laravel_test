@@ -8,11 +8,9 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::where('is_published', 0)->get();
-        foreach ($posts as $post) {
-            dump($post->title);
-        }
-        dd('end');
+        $posts = Post::all();
+        
+        return view('posts', compact('posts'));
 
     }
 
@@ -89,25 +87,25 @@ class PostController extends Controller
         dump($post->content);
         dd('finished');
     }
-    public function updateOrCreate(){
-                $anotherPost = [
-                'title' => 'update or create some post',
-                'content' => 'some content',
-                'image' => 'some image.png',
-                'likes' => 500,
-                'is_published' => 0,
-        ];
-        $post = Post::updateOrCreate([
-            'title' => 'some post'
-        ],
-        [
-                            'title' => 'update or create some post',
-                'content' => 'some content',
-                'image' => 'some image.png',
-                'likes' => 500,
-                'is_published' => 0,
-        ])
-    }
+    // public function updateOrCreate(){
+    //     $anotherPost = [
+    //     'title' => 'update or create some post',
+    //     'content' => 'some content',
+    //         'image' => 'some image.png',
+    //         'likes' => 500,
+    //         'is_published' => 0,
+    //     ];
+    //     $post = Post::updateOrCreate([
+    //         'title' => 'some post'
+    //     ],
+    //     [
+    //             'title' => 'update or create some post',
+    //             'content' => 'some content',
+    //             'image' => 'some image.png',
+    //             'likes' => 500,
+    //             'is_published' => 0,
+    //     ])
+    // }
 
 
 }
