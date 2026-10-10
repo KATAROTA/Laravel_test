@@ -9,8 +9,9 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::all();
+        $first_post = Post::first();
         
-        return view('posts', compact('posts'));
+        return view('posts', compact('posts', 'first_post'));
 
     }
 
