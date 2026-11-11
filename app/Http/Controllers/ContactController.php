@@ -10,7 +10,7 @@ class ContactController extends Controller
     {
         $posts = Post::all();
         
-        return view('contacts', compact('posts'));
+        return view('contacts');
 
     }
 

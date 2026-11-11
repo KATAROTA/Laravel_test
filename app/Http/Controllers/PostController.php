@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use function PHPUnit\Framework\returnArgument;
 
 class PostController extends Controller
 {
@@ -11,52 +12,44 @@ class PostController extends Controller
         $posts = Post::all();
         $first_post = Post::first();
         
-        return view('posts', compact('posts', 'first_post'));
+        return view('post.index', compact('posts', 'first_post'));
 
     }
 
     public function create()
     {
-        $postsArr = [
-            [
-                'title' => 'title of post from VS code',
-                'content' => 'some interesting content',
-                'image' => 'image.png',
-                'likes' => 20,
-                'is_published' => 1,
-            ],
-            [
-                'title' => 'another title of post from VS code',
-                'content' => ' another some interesting content',
-                'image' => 'another image.png',
-                'likes' => 50,
-                'is_published' => 1,
-            ],
-        ];
-        foreach ($postsArr as $item) {
-            Post::create($item);
-        }
-
-        // Post::create([
-        //     'title' => 'another title of post from VS code',
-        //     'content' => ' another some interesting content',
-        //     'image' => 'another image.png',
-        //     'likes' => 50,
-        //     'is_published' => 1,
-        // ]);
-        dd("created");
+        return view('post.create');
+    }
+    public function store(){
+        $data =request()->validate([
+            'title'=>'string',
+            'content'=>'string',
+            'image'=>'string',
+        ]);
+        Post::create($data);
+        return redirect()->route('post.index');
     }
 
-    public function update() {
-        $post = Post::find(6);
-        $post->update([
-                'title' => 'updated',
-                'content' => 'updated',
-                'image' => 'updated',
-                'likes' => 500,
-                'is_published' => 0,
+    public function show(Post $post) {
+        return view('post.show', compact('post'));
+        
+    }
+
+    public function edit(Post $post){
+        return view('post.edit', compact('post'));
+    }
+
+
+
+    public function update(Post $post) {
+        $data = request()->validate([
+            'title'=>'string',
+            'content'=>'string',
+            'image'=>'string',
         ]);
-        dd('updated');
+        $post->update($data);
+        return redirect()->route('post.show', $post->id);
+
     }
 
     public function delete(){
@@ -65,6 +58,11 @@ class PostController extends Controller
         // $post->restore();
         $post->delete();
         dd('deleted');
+    }
+
+    public function destroy(Post $post){
+        $post->delete();
+        return redirect()->route('post.index');
     }
 
     public function firstOrCreate(){
